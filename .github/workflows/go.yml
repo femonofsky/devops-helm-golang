@@ -24,7 +24,7 @@ jobs:
       - name: Download GO modules
         env:
           GOPROXY: "https://proxy.golang.org"
-        run: go mod download
+        run: go mod vendor
 
       - name: Test
         env:

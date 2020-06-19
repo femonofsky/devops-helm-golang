@@ -14,7 +14,7 @@ dockerpath=nofsky/web-app-$1
 # Authenticate & tag
 echo "Docker ID and Image: $dockerpath"
 docker login --username nofsky
-docker image tag web-app-$2 $dockerpath
+docker image tag web-app-$1 $dockerpath
 
 # Step 3:
 # Push image to a docker repository
