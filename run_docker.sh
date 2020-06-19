@@ -12,5 +12,5 @@ docker image ls
 
 # Step 3:
 # Run golang app
-#docker run -p $2:$2 web-app-$1
+docker run -p $2:$2 web-app-$1
 
