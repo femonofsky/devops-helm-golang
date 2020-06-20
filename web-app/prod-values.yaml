@@ -7,8 +7,6 @@ replicaCount: 1
 image:
   repository: nofsky/web-app-production
 
-
-
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:

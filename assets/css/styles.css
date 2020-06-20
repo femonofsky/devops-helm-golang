@@ -96,7 +96,7 @@ h6 {
 }
 
 .above-heading {
-	color: #5f4dee;
+	color: #ee2f1b;
 	font: 700 0.75rem/0.875rem "Open Sans", sans-serif;
 	text-align: center;
 }
@@ -145,7 +145,7 @@ a.white {
 }
 
 .blue {
-	color: #5f4dee;
+	color: #EE1A14;
 }
 
 .btn-solid-reg {
@@ -782,7 +782,7 @@ input[type='checkbox'] {
 /*    04. Header     */
 /*********************/
 .header {
-	background-color: #5f4dee;
+	background-color: #EE0707;
 }
 
 .header .header-content {

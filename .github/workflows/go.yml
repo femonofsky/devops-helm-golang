@@ -1,8 +1,8 @@
 name: Build and test GO
 on: [push, pull_request]
 jobs:
-  build:
-    name: Build
+  build-go:
+    name: Build Go
     runs-on: ubuntu-latest
     steps:
       - name: Set up GO 1.14
@@ -35,3 +35,7 @@ jobs:
         env:
           GOPROXY: "https://proxy.golang.org"
         run: make go-build
+
+  build-docker:
+    name: Build Docker
+    runs-on: ubuntu-latest
