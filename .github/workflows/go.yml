@@ -13,11 +13,8 @@ jobs:
       - name: Check out source code
         uses: actions/checkout@v2
         env:
-          GOROOT: ""
-          GO111MODULE: on
           GOPROXY: "https://proxy.golang.org"
-        with:
-          args: "run ./... "
+
 
       - uses: extractions/netrc@v1
         with:
@@ -32,6 +29,12 @@ jobs:
 
       - name: Lint
         uses: actions-contrib/golangci-lint@v1
+        env:
+          GOROOT: ""
+          GO111MODULE: on
+          GOPROXY: "https://proxy.golang.org"
+          with:
+            args: "run ./... "
 
       - name: Test
         env:
