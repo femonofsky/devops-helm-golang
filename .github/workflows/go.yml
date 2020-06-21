@@ -34,7 +34,7 @@ jobs:
           GOPROXY: "https://proxy.golang.org"
         run: make go-test
 
-     - name: Build
-       env:
-         GOPROXY: "https://proxy.golang.org"
-      run: make go-build app_env=development app_port=8080
+      - name: Build
+        env:
+          GOPROXY: "https://proxy.golang.org"
+        run: make go-build app_env=development app_port=8080
