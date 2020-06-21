@@ -1,8 +1,8 @@
-name: Build and test GO
+name: test and build GO
 on: [push, pull_request]
 jobs:
-  build-go:
-    name: Build Go
+  run-go:
+    name: Lint, Test and Build Go
     runs-on: ubuntu-latest
     steps:
       - name: Set up GO 1.14
@@ -26,6 +26,15 @@ jobs:
           GOPROXY: "https://proxy.golang.org"
         run: go mod vendor
 
+      - name: Lint
+        uses: actions-contrib/golangci-lint@v1
+        env:
+          GOROOT: ""
+          GO111MODULE: on
+          GOPROXY: "https://proxy.golang.org"
+        with:
+          args: "run ./... "
+
       - name: Test
         env:
           GOPROXY: "https://proxy.golang.org"
@@ -34,8 +43,41 @@ jobs:
       - name: Build
         env:
           GOPROXY: "https://proxy.golang.org"
-        run: make go-build
+        run: make go-build app_env=production app_port=8080
 
-  build-docker:
-    name: Build Docker
+  run-docker:
+    needs: run-go
+    name: Lint, Build  and Push Docker
     runs-on: ubuntu-latest
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@master
+      - name: lint
+        uses: burdzwastaken/hadolint-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HADOLINT_ACTION_DOCKERFILE_FOLDER: .
+      - name: build and push
+        uses: docker/build-push-action@v1
+        with:
+          build_args: app_env=production,app_port=8080
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: nofsky/web-app-production
+          tags: latest
+
+  run-helm:
+    needs: run-docker
+    name: Lint Helm
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@v2
+
+      - name: Fetch history
+        run: git fetch --prune --unshallow
+
+      - name: Run chart-testing (lint)
+        uses: helm/chart-testing-action@v1.0.0-rc.1
+        with:
+          command: lint
