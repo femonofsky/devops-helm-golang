@@ -1,6 +1,7 @@
 # Golang and Kubernetes using helm 
 
-Helm is the package manager for Kubernetes 
+Helm is the package manager for Kubernetes
+![Build and test GO](https://github.com/femonofsky/devops-helm-golang/workflows/Build%20and%20test%20GO/badge.svg?branch=develop) 
 
 ## Installation 
 

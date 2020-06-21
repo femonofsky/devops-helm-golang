@@ -1,7 +1,7 @@
-name: Build and test GO
+name: test and build GO
 on: [push, pull_request]
 jobs:
-  build-go:
+  run-go:
     name: Lint, Test and Build Go
     runs-on: ubuntu-latest
     steps:
@@ -14,7 +14,6 @@ jobs:
         uses: actions/checkout@v2
         env:
           GOPROXY: "https://proxy.golang.org"
-
 
       - uses: extractions/netrc@v1
         with:
@@ -45,3 +44,27 @@ jobs:
         env:
           GOPROXY: "https://proxy.golang.org"
         run: make go-build app_env=development app_port=8080
+
+  run-docker:
+    name: Lint, Build  and Push Docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@master
+      - name: lint
+        uses: burdzwastaken/hadolint-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HADOLINT_ACTION_DOCKERFILE_FOLDER: .
+      - name: build and push
+        uses: docker/build-push-action@v1
+        with:
+          build_args: app_env=development,app_port=8080
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: nofsky/web-app-development
+          tags: latest
+
+
+
+
