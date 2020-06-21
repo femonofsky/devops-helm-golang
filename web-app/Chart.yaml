@@ -1,6 +1,7 @@
 apiVersion: v2
 name: web-app
 description: A Helm chart for Kubernetes
+icon: https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png
 
 # A chart can be either an 'application' or a 'library' chart.
 #
