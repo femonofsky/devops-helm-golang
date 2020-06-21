@@ -46,6 +46,7 @@ jobs:
         run: make go-build app_env=development app_port=8080
 
   run-docker:
+    needs: run-go
     name: Lint, Build  and Push Docker
     runs-on: ubuntu-latest
     steps:
