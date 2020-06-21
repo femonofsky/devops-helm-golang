@@ -52,10 +52,10 @@ jobs:
       - name: Check out source code
         uses: actions/checkout@master
       - name: lint
-        uses: burdzwastaken/hadolint-action@master
+        uses: luke142367/Docker-Lint-Action@v1.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          HADOLINT_ACTION_DOCKERFILE_FOLDER: .
+          TARGET: Dockerfile
       - name: build and push
         uses: docker/build-push-action@v1
         with:
