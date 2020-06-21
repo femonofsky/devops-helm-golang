@@ -1,8 +1,8 @@
 name: Build and test GO
 on: [push, pull_request]
 jobs:
-  build:
-    name: Build
+  build-go:
+    name: Lint, Test and Build Go
     runs-on: ubuntu-latest
     steps:
       - name: Set up GO 1.14
@@ -26,12 +26,15 @@ jobs:
           GOPROXY: "https://proxy.golang.org"
         run: go mod vendor
 
+      - name: Lint
+        uses: actions-contrib/golangci-lint@v1
+
       - name: Test
         env:
           GOPROXY: "https://proxy.golang.org"
         run: make go-test
 
-      - name: Build
-        env:
-          GOPROXY: "https://proxy.golang.org"
-        run: make go-build
+     - name: Build
+       env:
+         GOPROXY: "https://proxy.golang.org"
+      run: make go-build app_env=development app_port=8080
