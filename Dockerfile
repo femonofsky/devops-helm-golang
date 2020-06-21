@@ -1,8 +1,7 @@
 FROM golang:alpine as builder
 
 
-RUN apk update && apk upgrade && \
-    apk add --no-cache git
+RUN apk update && apk add --no-cache git=~2.24.3
 
 RUN mkdir /app
 WORKDIR /app
@@ -26,14 +25,14 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o web-app-$app_env
 
 
 # Run container
-FROM alpine:latest
+FROM alpine:3.12.0
 ARG app_env
 ARG app_port
 
 ENV APP_ENV $app_env
 ENV APP_PORT $app_port
 
-RUN apk --no-cache add ca-certificates
+RUN apk --no-cache add ca-certificates=~20191127
 
 RUN mkdir /app
 WORKDIR /app
