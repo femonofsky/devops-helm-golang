@@ -45,28 +45,29 @@ jobs:
           GOPROXY: "https://proxy.golang.org"
         run: make go-build app_env=development app_port=8080
 
-#  run-docker:
-#    needs: run-go
-#    name: Lint, Build  and Push Docker
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Check out source code
-#        uses: actions/checkout@master
-#      - name: lint
-#        uses: burdzwastaken/hadolint-action@master
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#          HADOLINT_ACTION_DOCKERFILE_FOLDER: .
-#      - name: build and push
-#        uses: docker/build-push-action@v1
-#        with:
-#          build_args: app_env=development,app_port=8080
-#          username: ${{ secrets.DOCKER_USERNAME }}
-#          password: ${{ secrets.DOCKER_PASSWORD }}
-#          repository: nofsky/web-app-development
-#          tags: latest
+  run-docker:
+    needs: run-go
+    name: Lint, Build  and Push Docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@master
+      - name: lint
+        uses: burdzwastaken/hadolint-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HADOLINT_ACTION_DOCKERFILE_FOLDER: .
+      - name: build and push
+        uses: docker/build-push-action@v1
+        with:
+          build_args: app_env=development,app_port=8080
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: nofsky/web-app-development
+          tags: latest
 
   run-helm:
+    needs: run-docker
     name: Lint Helm
     runs-on: ubuntu-latest
     steps:
